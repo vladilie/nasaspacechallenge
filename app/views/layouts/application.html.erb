@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Nasachallenge</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script type='text/javascript' src='https://api.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.js'></script>
+    <script type='text/javascript' src='https://code.jquery.com/jquery-3.3.1.slim.min.js'></script>
+  </head>
+
+  <%= yield :scripts %>
+  <body>
+    <%= yield %>
+  </body>
+</html>
