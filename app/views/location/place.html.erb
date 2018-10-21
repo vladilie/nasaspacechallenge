@@ -1,0 +1,57 @@
+<h1>Location#place</h1>
+<p>Find me in app/views/location/place.html.erb</p>
+<ul>
+<li id='map' style="display:block; height: 800px;"></li>
+
+
+<li id="carbon">
+  <iframe src="https://worldview.earthdata.nasa.gov/?p=geographic&l=MODIS_Aqua_CorrectedReflectance_TrueColor,MODIS_Terra_CorrectedReflectance_TrueColor(hidden),MLS_CO_215hPa_Day,Coastlines&t=2014-01-14-T00%3A00%3A00Z&z=3&v=64.76771849073256,10.152991869814642,165.80845350926745,59.62630513018536"></iframe>
+</li>
+</ul>
+
+<% content_for :scripts do %>
+  <script>
+
+      $( document ).ready(function() {
+          console.log( "ready!" );
+          <% puts @tile %>
+      });
+      $(function() {
+          var tilePath = 'wmts/epsg3857/best/' +
+              'MODIS_Terra_CorrectedReflectance_TrueColor/default/' +
+              '2018-06-01/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg';
+
+          // Add token here when using Mapbox layers
+          mapboxgl.accessToken = 'undefined';
+
+          new mapboxgl.Map({
+              container: 'map',
+              style: {
+                  version: 8,
+                  sources: {
+                      gibs: {
+                          type: 'raster',
+                          tiles: [
+                              '//gibs-a.earthdata.nasa.gov/' + tilePath,
+                              '//gibs-b.earthdata.nasa.gov/' + tilePath,
+                              '//gibs-c.earthdata.nasa.gov/' + tilePath
+                          ],
+                          tileSize: 512
+                      }
+                  },
+                  layers: [{
+                      id: 'gibs',
+                      type: 'raster',
+                      source: 'gibs',
+                      minzoom: 0,
+                      maxzoom: 14
+                  }]
+              },
+              center: [<%=@tile[:x] %>, <%=@tile[:y] %>],
+              minZoom: 0,
+              maxZoom: 14,
+              zoom: 3
+          });
+      });
+  </script>
+<% end %>
